@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Portal</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <div class="header">
+        <h1>User Portal</h1>
+        <button onclick="location.href='index.html'" class="btn-secondary">Back</button>
+      </div>
+      <div id="loginSection">
+        <input type="email" id="userEmail" placeholder="Email">
+        <input type="password" id="userPassword" placeholder="Password">
+        <button onclick="userLogin()" class="btn">Login</button>
+        <div class="auth-toggle">
+          <a onclick="toggleAuthMode('user')">Don't have an account? Register here</a>
+        </div>
+      </div>
+      <div id="registerSection" style="display:none;">
+        <input type="email" id="userRegEmail" placeholder="Email">
+        <input type="password" id="userRegPassword" placeholder="Password">
+        <input type="text" id="userName" placeholder="Full Name">
+        <button onclick="userRegister()" class="btn">Register</button>
+        <div class="auth-toggle">
+          <a onclick="toggleAuthMode('user')">Already have an account? Login here</a>
+        </div>
+      </div>
+      <div id="userPanel" style="display:none;">
+        <button onclick="logout()" class="btn-secondary">Logout</button>
+        <h2>My Details</h2>
+        <div id="userDetails"></div>
+        <h2>Search Records</h2>
+        <input type="text" id="searchInput" placeholder="Search by name or mobile">
+        <button onclick="searchRecords()" class="btn">Search</button>
+        <div id="searchResults"></div>
+      </div>
+    </div>
+  </div>
+  <script type="module" src="script.js"></script>
+</body>
+</html>

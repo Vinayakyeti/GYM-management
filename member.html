@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Member Portal</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <div class="header">
+        <h1>Member Portal</h1>
+        <button onclick="location.href='index.html'" class="btn-secondary">Back</button>
+      </div>
+      <div id="loginSection">
+        <input type="email" id="memberEmail" placeholder="Email">
+        <input type="password" id="memberPassword" placeholder="Password">
+        <button onclick="memberLogin()" class="btn">Login</button>
+        <div class="auth-toggle">
+          <a onclick="toggleAuthMode('member')">Don't have an account? Register here</a>
+        </div>
+      </div>
+      <div id="registerSection" style="display:none;">
+        <input type="email" id="memberRegEmail" placeholder="Email">
+        <input type="password" id="memberRegPassword" placeholder="Password">
+        <input type="text" id="memberName" placeholder="Full Name">
+        <button onclick="memberRegister()" class="btn">Register</button>
+        <div class="auth-toggle">
+          <a onclick="toggleAuthMode('member')">Already have an account? Login here</a>
+        </div>
+      </div>
+      <div id="memberPanel" style="display:none;">
+        <button onclick="logout()" class="btn-secondary">Logout</button>
+        <div class="tabs">
+          <button onclick="showTab('receipts')" class="tab-btn active">Receipts</button>
+          <button onclick="showTab('alerts')" class="tab-btn">Notifications</button>
+        </div>
+        <div id="receiptsTab" class="tab-content">
+          <h2>My Bills</h2>
+          <div id="memberBills"></div>
+        </div>
+        <div id="alertsTab" class="tab-content" style="display:none;">
+          <h2>My Notifications</h2>
+          <div id="memberNotifications"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="module" src="script.js"></script>
+</body>
+</html>
