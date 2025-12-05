@@ -1,4 +1,5 @@
 .env
+firebase-config.js
 node_modules/
 .vscode/
 .DS_Store
