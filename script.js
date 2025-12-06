@@ -4,6 +4,20 @@ import { collection, addDoc, getDocs, deleteDoc, doc, query, where, orderBy, set
 
 let currentUser = null;
 
+// Validation helpers
+function validateEmail(email) {
+  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return regex.test(email);
+}
+
+function validatePassword(password) {
+  return password.length >= 8;
+}
+
+function showErrorAlert(message) {
+  alert('⚠️ ' + message);
+}
+
 onAuthStateChanged(auth, (user) => {
   currentUser = user;
   console.log('Auth state changed:', user?.email);
@@ -27,6 +41,21 @@ window.adminRegister = async () => {
   const password = document.getElementById('adminRegPassword').value;
   const name = document.getElementById('adminName').value;
   
+  if (!email || !validateEmail(email)) {
+    showErrorAlert('Please enter a valid email address');
+    return;
+  }
+  
+  if (!password || !validatePassword(password)) {
+    showErrorAlert('Password must be at least 8 characters long');
+    return;
+  }
+  
+  if (!name || name.trim().length < 2) {
+    showErrorAlert('Please enter your full name (at least 2 characters)');
+    return;
+  }
+  
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     await setDoc(doc(db, 'users', userCredential.user.uid), {
@@ -35,11 +64,20 @@ window.adminRegister = async () => {
       role: 'admin',
       createdAt: new Date()
     });
-    alert('Admin registered successfully! Please login.');
+    alert('✅ Admin registered successfully! Please login.');
     toggleAuthMode('admin');
     console.log('Admin registered');
   } catch (error) {
-    alert('Registration failed: ' + error.message);
+    if (error.code === 'auth/email-already-in-use') {
+      showErrorAlert('This email is already registered. Please login or use a different email.');
+    } else if (error.code === 'auth/weak-password') {
+      showErrorAlert('Password is too weak. Please use a stronger password.');
+    } else if (error.message.includes('Missing or insufficient permissions')) {
+      showErrorAlert('Firestore rules not configured. Please update Firebase security rules (see setup guide).');
+    } else {
+      showErrorAlert('Registration failed: ' + error.message);
+    }
+    console.error('Registration error:', error);
   }
 };
 
@@ -47,6 +85,21 @@ window.memberRegister = async () => {
   const email = document.getElementById('memberRegEmail').value;
   const password = document.getElementById('memberRegPassword').value;
   const name = document.getElementById('memberName').value;
+  
+  if (!email || !validateEmail(email)) {
+    showErrorAlert('Please enter a valid email address');
+    return;
+  }
+  
+  if (!password || !validatePassword(password)) {
+    showErrorAlert('Password must be at least 8 characters long');
+    return;
+  }
+  
+  if (!name || name.trim().length < 2) {
+    showErrorAlert('Please enter your full name (at least 2 characters)');
+    return;
+  }
   
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -56,11 +109,20 @@ window.memberRegister = async () => {
       role: 'member',
       createdAt: new Date()
     });
-    alert('Member registered successfully! Please login.');
+    alert('✅ Member registered successfully! Please login.');
     toggleAuthMode('member');
     console.log('Member registered');
   } catch (error) {
-    alert('Registration failed: ' + error.message);
+    if (error.code === 'auth/email-already-in-use') {
+      showErrorAlert('This email is already registered. Please login or use a different email.');
+    } else if (error.code === 'auth/weak-password') {
+      showErrorAlert('Password is too weak. Please use a stronger password.');
+    } else if (error.message.includes('Missing or insufficient permissions')) {
+      showErrorAlert('Firestore rules not configured. Please update Firebase security rules (see setup guide).');
+    } else {
+      showErrorAlert('Registration failed: ' + error.message);
+    }
+    console.error('Registration error:', error);
   }
 };
 
@@ -68,6 +130,21 @@ window.userRegister = async () => {
   const email = document.getElementById('userRegEmail').value;
   const password = document.getElementById('userRegPassword').value;
   const name = document.getElementById('userName').value;
+  
+  if (!email || !validateEmail(email)) {
+    showErrorAlert('Please enter a valid email address');
+    return;
+  }
+  
+  if (!password || !validatePassword(password)) {
+    showErrorAlert('Password must be at least 8 characters long');
+    return;
+  }
+  
+  if (!name || name.trim().length < 2) {
+    showErrorAlert('Please enter your full name (at least 2 characters)');
+    return;
+  }
   
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -77,11 +154,20 @@ window.userRegister = async () => {
       role: 'user',
       createdAt: new Date()
     });
-    alert('User registered successfully! Please login.');
+    alert('✅ User registered successfully! Please login.');
     toggleAuthMode('user');
     console.log('User registered');
   } catch (error) {
-    alert('Registration failed: ' + error.message);
+    if (error.code === 'auth/email-already-in-use') {
+      showErrorAlert('This email is already registered. Please login or use a different email.');
+    } else if (error.code === 'auth/weak-password') {
+      showErrorAlert('Password is too weak. Please use a stronger password.');
+    } else if (error.message.includes('Missing or insufficient permissions')) {
+      showErrorAlert('Firestore rules not configured. Please update Firebase security rules (see setup guide).');
+    } else {
+      showErrorAlert('Registration failed: ' + error.message);
+    }
+    console.error('Registration error:', error);
   }
 };
 
